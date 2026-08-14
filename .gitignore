@@ -1,0 +1,22 @@
+# Gradle / Android
+*.iml
+.gradle
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+/local.properties
+local.properties
+
+# IDE
+/.idea
+
+# macOS
+.DS_Store
+
+# iOS build outputs (compiled .app, DerivedData, dSYM)
+/ios/build/
+
+# Local verification screenshots (scratch)
+/.build-artifacts/

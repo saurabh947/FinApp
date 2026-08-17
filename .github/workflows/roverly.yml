@@ -1,6 +1,6 @@
 # .github/workflows/roverly.yml
 #
-# Gate every pull request on a Roverly run.
+# Gate every (ready, non-draft) pull request on a Roverly run.
 #
 # On each PR: build the changed app(s), upload the artifact to Roverly, and turn
 # the verdict into a PR check + comment. The run itself executes on your paired
@@ -20,11 +20,17 @@
 #   ROVERLY_PROJECT_ANDROID  Android project UUID   (set this to enable Android)
 # A platform whose project secret is unset skips its gate (green) until you add it.
 #
+# Drafts: a draft PR does NOT run Roverly. Open as draft to hold off the gate;
+# click "Ready for review" to kick it off. (See the `changes` job's draft guard.)
+#
 name: Roverly
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    # Draft PRs still fire opened/synchronize, but the `changes` job skips them
+    # (draft == false). ready_for_review is the event that fires when a draft is
+    # marked "Ready for review" — that's what actually kicks off the gate.
+    types: [opened, synchronize, reopened, ready_for_review]
 
 # A new push supersedes the in-flight runner for this PR (Roverly supersedes the
 # queued run itself; this just stops paying for a runner about to be replaced).
@@ -36,9 +42,13 @@ jobs:
   # ── Decide which platform(s) changed ──────────────────────────────
   changes:
     runs-on: ubuntu-latest
-    # Fork PRs are not special-cased by the Roverly API (they spend a real run)
-    # and a fork token usually can't post the comment back — skip them.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Skip while the PR is a draft (hold off the gate until "Ready for review"),
+    # and skip fork PRs — the Roverly API doesn't special-case them (they spend a
+    # real run) and a fork token usually can't post the comment back. The android
+    # and ios jobs `needs: changes`, so skipping here skips the whole gate.
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: read
       pull-requests: read

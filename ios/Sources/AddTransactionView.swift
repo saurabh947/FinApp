@@ -11,6 +11,7 @@ struct AddTransactionView: View {
     @State private var amountText = ""
     @State private var category: Category
     @State private var date = Date()
+    @State private var notes = ""
 
     init(initialType: TransactionType) {
         self.initialType = initialType
@@ -80,10 +81,20 @@ struct AddTransactionView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
+                    // Notes (freeform; saved on the transaction, not displayed elsewhere yet)
+                    labeledField(p, "Notes") {
+                        TextField("Notes", text: $notes, axis: .vertical)
+                            .lineLimit(3...6)
+                            .foregroundColor(p.onSurface)
+                            .padding(12)
+                            .background(fieldBorder(p))
+                    }
+
                     Button {
                         if let amt = amountValue, canSave {
                             store.add(title: name.trimmingCharacters(in: .whitespaces),
-                                      amount: amt, category: category, date: date, type: type)
+                                      amount: amt, category: category, date: date, type: type,
+                                      notes: notes.trimmingCharacters(in: .whitespacesAndNewlines))
                             dismiss()
                         }
                     } label: {

@@ -40,9 +40,9 @@ final class TransactionStore: ObservableObject {
     @Published private(set) var transactions: [Transaction] = SeedData.make()
     private var nextId: Int = 34
 
-    func add(title: String, amount: Double, category: Category, date: Date, type: TransactionType) {
+    func add(title: String, amount: Double, category: Category, date: Date, type: TransactionType, notes: String = "") {
         transactions.append(
-            Transaction(id: nextId, title: title, category: category, amount: amount, date: date, type: type)
+            Transaction(id: nextId, title: title, category: category, amount: amount, date: date, type: type, notes: notes)
         )
         nextId += 1
         AppLog.event("Transaction added: \(type.rawValue) \"\(title)\" \(amount)")

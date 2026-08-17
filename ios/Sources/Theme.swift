@@ -77,6 +77,7 @@ func shortDate(_ date: Date) -> String {
 enum Route: Hashable {
     case add(TransactionType)
     case settings
+    case detail(Int)
 }
 
 extension View {

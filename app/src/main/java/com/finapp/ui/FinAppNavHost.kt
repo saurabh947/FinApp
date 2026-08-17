@@ -13,9 +13,13 @@ private object Routes {
     const val ADD = "add"
     const val SETTINGS = "settings"
     const val ARG_TYPE = "type"
+    const val DETAIL = "detail"
+    const val ARG_ID = "id"
 
     fun addRoute(type: TransactionType) = "$ADD?$ARG_TYPE=${type.name}"
     const val ADD_PATTERN = "$ADD?$ARG_TYPE={$ARG_TYPE}"
+    fun detailRoute(id: Long) = "$DETAIL/$id"
+    const val DETAIL_PATTERN = "$DETAIL/{$ARG_ID}"
 }
 
 @Composable
@@ -26,7 +30,8 @@ fun FinAppNavHost() {
         composable(Routes.DASHBOARD) {
             DashboardScreen(
                 onAddTransaction = { type -> navController.navigate(Routes.addRoute(type)) },
-                onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                onTransactionClick = { id -> navController.navigate(Routes.detailRoute(id)) }
             )
         }
         composable(
@@ -50,6 +55,18 @@ fun FinAppNavHost() {
         }
         composable(Routes.SETTINGS) {
             SettingsScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Routes.DETAIL_PATTERN,
+            arguments = listOf(
+                navArgument(Routes.ARG_ID) { type = NavType.LongType }
+            )
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong(Routes.ARG_ID) ?: -1L
+            TransactionDetailScreen(
+                transactionId = id,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

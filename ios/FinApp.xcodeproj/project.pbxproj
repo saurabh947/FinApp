@@ -15,6 +15,7 @@
 		AA0000000000000000000025 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000015 /* AddTransactionView.swift */; };
 		AA0000000000000000000026 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000016 /* SettingsView.swift */; };
 		AA0000000000000000000027 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000017 /* Log.swift */; };
+		AA0000000000000000000028 /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000018 /* TransactionDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		AA0000000000000000000015 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000017 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		AA0000000000000000000018 /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				AA0000000000000000000015 /* AddTransactionView.swift */,
 				AA0000000000000000000016 /* SettingsView.swift */,
 				AA0000000000000000000017 /* Log.swift */,
+				AA0000000000000000000018 /* TransactionDetailView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 				AA0000000000000000000025 /* AddTransactionView.swift in Sources */,
 				AA0000000000000000000026 /* SettingsView.swift in Sources */,
 				AA0000000000000000000027 /* Log.swift in Sources */,
+				AA0000000000000000000028 /* TransactionDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

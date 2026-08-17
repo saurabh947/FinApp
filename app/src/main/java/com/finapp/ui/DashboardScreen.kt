@@ -86,6 +86,7 @@ private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM 
 fun DashboardScreen(
     onAddTransaction: (TransactionType) -> Unit,
     onOpenSettings: () -> Unit,
+    onTransactionClick: (Long) -> Unit,
     viewModel: DashboardViewModel = viewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -139,7 +140,8 @@ fun DashboardScreen(
                 selectedTab = selectedTab,
                 onSelectTab = { selectedTab = it },
                 income = state.income,
-                expenses = state.expenses
+                expenses = state.expenses,
+                onTransactionClick = onTransactionClick
             )
         }
     }
@@ -273,7 +275,8 @@ private fun TransactionTabs(
     selectedTab: Int,
     onSelectTab: (Int) -> Unit,
     income: List<Transaction>,
-    expenses: List<Transaction>
+    expenses: List<Transaction>,
+    onTransactionClick: (Long) -> Unit
 ) {
     val tabs = listOf("Income", "Expenses")
 
@@ -299,12 +302,12 @@ private fun TransactionTabs(
 
         val isIncome = selectedTab == 0
         val items = if (isIncome) income else expenses
-        TransactionList(items = items, isIncome = isIncome)
+        TransactionList(items = items, isIncome = isIncome, onTransactionClick = onTransactionClick)
     }
 }
 
 @Composable
-private fun TransactionList(items: List<Transaction>, isIncome: Boolean) {
+private fun TransactionList(items: List<Transaction>, isIncome: Boolean, onTransactionClick: (Long) -> Unit) {
     if (items.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -322,18 +325,23 @@ private fun TransactionList(items: List<Transaction>, isIncome: Boolean) {
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(items, key = { it.id }) { transaction ->
-            TransactionRow(transaction = transaction, isIncome = isIncome)
+            TransactionRow(
+                transaction = transaction,
+                isIncome = isIncome,
+                onClick = { onTransactionClick(transaction.id) }
+            )
         }
     }
 }
 
 @Composable
-private fun TransactionRow(transaction: Transaction, isIncome: Boolean) {
+private fun TransactionRow(transaction: Transaction, isIncome: Boolean, onClick: () -> Unit) {
     val accentColors = LocalAccentColors.current
     val accent = if (isIncome) accentColors.income else accentColors.expense
     val sign = if (isIncome) "+" else "-"
 
     Card(
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
@@ -387,7 +395,7 @@ private fun TransactionRow(transaction: Transaction, isIncome: Boolean) {
     }
 }
 
-private fun categoryIcon(category: Category): ImageVector = when (category) {
+fun categoryIcon(category: Category): ImageVector = when (category) {
     Category.SALARY -> Icons.Filled.Payments
     Category.FREELANCE -> Icons.Filled.Work
     Category.INVESTMENTS -> Icons.AutoMirrored.Filled.ShowChart

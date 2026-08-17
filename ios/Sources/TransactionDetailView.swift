@@ -51,6 +51,22 @@ struct TransactionDetailView: View {
                         }
                         .padding(.vertical, 4)
                         .background(RoundedRectangle(cornerRadius: 16).fill(p.surface))
+
+                        // Notes — only shown when present
+                        if !tx.notes.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Notes")
+                                    .font(.subheadline)
+                                    .foregroundColor(p.onSurfaceVariant)
+                                Text(tx.notes)
+                                    .font(.body)
+                                    .foregroundColor(p.onSurface)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .padding(16)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(p.surface))
+                        }
                     }
                     .padding(16)
                 }

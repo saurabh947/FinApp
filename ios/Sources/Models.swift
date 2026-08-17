@@ -78,6 +78,7 @@ struct Transaction: Identifiable {
     var amount: Double
     var date: Date
     var type: TransactionType
+    var notes: String = ""
 }
 
 /// Display currency. `localeId` drives the symbol + number formatting.

@@ -37,6 +37,7 @@ struct DashboardView: View {
                 switch route {
                 case .add(let type): AddTransactionView(initialType: type)
                 case .settings: SettingsView()
+                case .detail(let id): TransactionDetailView(transactionId: id)
                 }
             }
             .onAppear { AppLog.screen("Dashboard") }
@@ -134,7 +135,10 @@ struct DashboardView: View {
             ScrollView {
                 LazyVStack(spacing: 10) {
                     ForEach(items) { tx in
-                        transactionRow(p, tx: tx, isIncome: isIncome)
+                        NavigationLink(value: Route.detail(tx.id)) {
+                            transactionRow(p, tx: tx, isIncome: isIncome)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 16)
